@@ -1,16 +1,18 @@
 import requests
-
-from models.api_response import APIResponse
 from dataclass_wizard import fromdict
+from models.api_response import APIResponse
+import interfaz
 
-response = requests.get("https://dummyjson.com/products")
-product_list = response.text
+def main():
+    response = requests.get("https://dummyjson.com/products")
+    data_dict = response.json()
+    product_list = fromdict(APIResponse, data_dict)
 
-if response.status_code == 200:
-    print('Datos:', response.json())
-else:
-    print('Error')
+    interfaz.mostrarProducto(product_list, 0)
 
-for product in product_list.products:
-    print(product.title)
+
+if __name__ == '__main__':
+    main()
+
+
 
