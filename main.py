@@ -8,7 +8,7 @@ def main():
     data_dict = response.json()
     product_list = fromdict(APIResponse, data_dict)
 
-    interfaz.mostrarProducto(product_list, 0)
+    interfaz.mostrarProducto(product_list)
 
 
 if __name__ == '__main__':
