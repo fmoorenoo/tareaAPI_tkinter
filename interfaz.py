@@ -50,6 +50,9 @@ def mostrarProducto(lista_productos: APIResponse):
     labelTitulo = ttk.Label(frame, text=lista_productos.products[indice].title, font=fuente)
     labelTitulo.grid(row=0, column=1, padx=10)
 
+    boton_buscar = ttk.Button(frame, text="Buscador", command=lambda: buscarProductos())
+    boton_buscar.grid(row=0, column=2, padx=10, pady=20)
+
     labelDesc = ttk.Label(frame, text=lista_productos.products[indice].description, wraplength=300, anchor="w", justify="left")
     labelDesc.grid(row=1, column=1, padx=10)
 
@@ -70,3 +73,21 @@ def mostrarProducto(lista_productos: APIResponse):
 
 
     v_producto.mainloop()
+
+def buscarProductos():
+    global lista_productos
+    v_busqueda = tk.Tk()
+    v_busqueda.title("Buscador")
+    v_busqueda.geometry('745x265')
+    v_busqueda.configure(bg='#B0C4C9')
+    fuente = Font(family="Helvetica", size=16, weight="bold")
+    frame = tk.Frame(v_busqueda)
+    frame.pack()
+    labelTitulo = ttk.Label(frame, text="Buscador de productos", font=fuente)
+    labelTitulo.grid(row=0, column=0, padx=10)
+
+    entrada = ttk.Entry(frame, font=fuente)
+    entrada.grid(row=0, column=1, padx=10)
+
+    boton_buscar = ttk.Button(frame, text="Buscar", command=False)
+    boton_buscar.grid(row=0, column=2, padx=10, pady=20)
