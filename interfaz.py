@@ -7,7 +7,6 @@ import requests
 from models.api_response import APIResponse
 
 
-
 def cargarProducto(lista_productos: APIResponse, direccion: int):
     global label_img, labelTitulo, labelDesc, labelPrecio, labelStock, labelRating, indice
     if direccion == "anterior":
@@ -33,7 +32,6 @@ def cargarProducto(lista_productos: APIResponse, direccion: int):
     labelRating.config(text=f"Rating: {lista_productos.products[indice].rating}")
 
 
-
 def mostrarProducto(lista_productos: APIResponse):
     global label_img, labelTitulo, labelDesc, labelPrecio, labelStock, labelRating, indice, boton_buscar
     indice = 0
@@ -44,7 +42,6 @@ def mostrarProducto(lista_productos: APIResponse):
     fuente = Font(family="Helvetica", size=16, weight="bold")
     frame = tk.Frame(v_producto)
     frame.pack()
-
 
     r = requests.get(lista_productos.products[indice].thumbnail, stream=True)
     imagen_tk = ImageTk.PhotoImage(Image.open(r.raw).resize((150, 150)))
@@ -76,12 +73,13 @@ def mostrarProducto(lista_productos: APIResponse):
     boton_siguiente = ttk.Button(frame, text="Siguiente", command=lambda: cargarProducto(lista_productos, "siguiente"))
     boton_siguiente.grid(row=3, column=2, padx=10, pady=20)
 
-
     v_producto.mainloop()
+
 
 def ventanaBuscador(lista_productos):
     global boton_buscar
     boton_buscar.config(state="disabled")
+
     v_busqueda = tk.Tk()
     v_busqueda.title("Buscador")
     v_busqueda.geometry('655x70+630+300')
@@ -89,27 +87,50 @@ def ventanaBuscador(lista_productos):
     fuente = Font(family="Helvetica", size=16, weight="bold")
     frame = tk.Frame(v_busqueda)
     frame.pack()
+
     labelTitulo = ttk.Label(frame, text="Buscador de productos", font=fuente)
     labelTitulo.grid(row=0, column=0, padx=10)
 
     entrada = ttk.Entry(frame, font=fuente)
     entrada.grid(row=0, column=1, padx=10)
 
+    boton_busqueda = ttk.Button(frame, text="Buscar", command=lambda: mostrarResultados(entrada.get().lower(), lista_productos))
+    boton_busqueda.grid(row=0, column=2, padx=10, pady=20)
 
-    boton_buscar = ttk.Button(frame, text="Buscar", command=lambda : buscarProductos(entrada.get().lower(), lista_productos))
-    boton_buscar.grid(row=0, column=2, padx=10, pady=20)
-
-    boton_cerrar = ttk.Button(frame, text="Cerrar ventana", command=lambda : cerrarBuscador(v_busqueda))
+    boton_cerrar = ttk.Button(frame, text="Cerrar ventana", command=lambda: cerrarBuscador(v_busqueda))
     boton_cerrar.grid(row=0, column=3, padx=10, pady=0)
 
 
-def buscarProductos(titulo, lista_productos):
-    posicionProducto = 0
-    for x in range (len(lista_productos.products)):
-        if titulo in lista_productos.products[x].title.lower():
-            cargarProducto(lista_productos, posicionProducto)
-            break
-        posicionProducto += 1
+def mostrarResultados(titulo, lista_productos):
+    resultados = []
+    if titulo.strip() == "":
+        print("No se encontraron resultados")
+    else:
+        for producto in lista_productos.products:
+            if titulo in producto.title.lower():
+                resultados.append(producto.title)
+
+        if resultados:
+            ventanaResultados(resultados)
+
+
+def ventanaResultados(resultados):
+    v_resultados = tk.Tk()
+    v_resultados.title("Búsqueda")
+    v_resultados.geometry('350x800+1400+150')
+    v_resultados.configure(bg='#B0C4C9')
+    fuente = Font(family="Helvetica", size=14)
+
+    frame = tk.Frame(v_resultados)
+    frame.pack()
+
+    for titulo in resultados:
+        label_producto = ttk.Label(frame, text=titulo, font=fuente)
+        label_producto.pack(pady=5)
+
+    boton_cerrar = ttk.Button(frame, text="Cerrar ventana", command=v_resultados.destroy)
+    boton_cerrar.pack(pady=10)
+
 
 def cerrarBuscador(ventana):
     global boton_buscar
