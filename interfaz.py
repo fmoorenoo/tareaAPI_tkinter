@@ -100,6 +100,9 @@ def ventanaBuscador(lista_productos):
     boton_cerrar = ttk.Button(frame, text="Cerrar ventana", command=lambda: cerrarBuscador(v_busqueda))
     boton_cerrar.grid(row=0, column=3, padx=10, pady=0)
 
+    v_busqueda.protocol("WM_DELETE_WINDOW", lambda: cerrarBuscador(v_busqueda))
+
+
 
 def mostrarResultados(titulo, lista_productos):
     resultados = []
@@ -108,10 +111,11 @@ def mostrarResultados(titulo, lista_productos):
     else:
         for producto in lista_productos.products:
             if titulo in producto.title.lower():
-                resultados.append(producto.title)
+                resultados.append((producto.title))
 
         if resultados:
             ventanaResultados(resultados)
+
 
 
 def ventanaResultados(resultados):
@@ -127,6 +131,7 @@ def ventanaResultados(resultados):
     for titulo in resultados:
         label_producto = ttk.Label(frame, text=titulo, font=fuente)
         label_producto.pack(pady=5)
+
 
     boton_cerrar = ttk.Button(frame, text="Cerrar ventana", command=v_resultados.destroy)
     boton_cerrar.pack(pady=10)
