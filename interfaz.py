@@ -114,27 +114,28 @@ def mostrarResultados(titulo, lista_productos):
                 resultados.append((producto.title))
 
         if resultados:
-            ventanaResultados(resultados)
+            ventanaResultados(resultados, lista_productos)
 
 
 
-def ventanaResultados(resultados):
+def ventanaResultados(resultados, lista_productos):
     v_resultados = tk.Tk()
     v_resultados.title("Búsqueda")
-    v_resultados.geometry('350x800+1400+150')
+    v_resultados.geometry('350x850+1400+150')
     v_resultados.configure(bg='#B0C4C9')
-    fuente = Font(family="Helvetica", size=14)
 
     frame = tk.Frame(v_resultados)
     frame.pack()
 
     for titulo in resultados:
-        label_producto = ttk.Label(frame, text=titulo, font=fuente)
-        label_producto.pack(pady=5)
+        lista_titulos = []
+        for producto in lista_productos.products:
+            lista_titulos.append(producto.title)
+        indice_producto = lista_titulos.index(titulo)
 
+        boton_producto = ttk.Button(frame, text=titulo, command=lambda i = indice_producto : cargarProducto(lista_productos, i))
+        boton_producto.pack(pady=5)
 
-    boton_cerrar = ttk.Button(frame, text="Cerrar ventana", command=v_resultados.destroy)
-    boton_cerrar.pack(pady=10)
 
 
 def cerrarBuscador(ventana):
