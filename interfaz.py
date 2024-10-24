@@ -127,7 +127,7 @@ def ventanaResultados(resultados, lista_productos):
     frame = tk.Frame(v_resultados)
     frame.pack()
 
-    for titulo in resultados:
+    for titulo in sorted(resultados):
         lista_titulos = []
         for producto in lista_productos.products:
             lista_titulos.append(producto.title)
