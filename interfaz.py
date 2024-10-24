@@ -103,11 +103,10 @@ def ventanaBuscador(lista_productos):
     v_busqueda.protocol("WM_DELETE_WINDOW", lambda: cerrarBuscador(v_busqueda))
 
 
-
 def mostrarResultados(titulo, lista_productos):
     resultados = []
     if titulo.strip() == "":
-        print("No se encontraron resultados")
+        print("Por favor, introduce alguna letra.")
     else:
         for producto in lista_productos.products:
             if titulo in producto.title.lower():
@@ -115,7 +114,8 @@ def mostrarResultados(titulo, lista_productos):
 
         if resultados:
             ventanaResultados(resultados, lista_productos)
-
+        else:
+            print("No se encontraron resultados")
 
 
 def ventanaResultados(resultados, lista_productos):
@@ -135,7 +135,6 @@ def ventanaResultados(resultados, lista_productos):
 
         boton_producto = ttk.Button(frame, text=titulo, command=lambda i = indice_producto : cargarProducto(lista_productos, i))
         boton_producto.pack(pady=5)
-
 
 
 def cerrarBuscador(ventana):
