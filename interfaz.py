@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
-
 from PIL import Image, ImageTk
+from weasyprint import HTML
+
 import requests
 from models.api_response import APIResponse
 
@@ -137,7 +138,28 @@ def ventanaResultados(resultados, lista_productos):
         boton_producto.pack(pady=5)
 
 
+    boton_pdf = ttk.Button(frame, text="Generar PDF",command=lambda: generar_pdf(resultados))
+    boton_pdf.grid(padx=10, pady=10)
+
+
 def cerrarBuscador(ventana):
     global boton_buscar
     boton_buscar.config(state="normal")
     ventana.destroy()
+
+
+def generar_pdf(resultados, lista_productos):
+    html = """
+    <html>
+    <head>
+        <style>
+            h1 {text-align: center;}
+            .producto {margin-bottom: 20px; text-align: center;}
+            .producto img {max-width: 150px; max-height: 150px;}
+            .producto h2 {font-size: 18px; margin: 5px 0;}
+            .producto p {font-size: 16px; color: #333;}
+        </style>
+    </head>
+    <body>
+        <h1>Resultados de Búsqueda</h1>
+    """
