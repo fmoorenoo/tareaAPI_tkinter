@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tkinter.font import Font
 from PIL import Image, ImageTk
 from weasyprint import HTML
@@ -78,7 +78,7 @@ def mostrarProducto(lista_productos: APIResponse):
 
 
 def ventanaBuscador(lista_productos):
-    global boton_buscar
+    global boton_buscar, entrada
     boton_buscar.config(state="disabled")
 
     v_busqueda = tk.Tk()
@@ -138,8 +138,8 @@ def ventanaResultados(resultados, lista_productos):
         boton_producto.pack(pady=5)
 
 
-    boton_pdf = ttk.Button(frame, text="Generar PDF",command=lambda: generar_pdf(resultados))
-    boton_pdf.grid(padx=10, pady=10)
+    boton_pdf = ttk.Button(frame, text="Generar PDF",command=lambda: generar_pdf(resultados, lista_productos))
+    boton_pdf.pack(padx=10, pady=10)
 
 
 def cerrarBuscador(ventana):
@@ -149,6 +149,7 @@ def cerrarBuscador(ventana):
 
 
 def generar_pdf(resultados, lista_productos):
+    global entrada
     html = """
     <html>
     <head>
@@ -186,3 +187,7 @@ def generar_pdf(resultados, lista_productos):
         </body>
         </html>
         """
+
+    nombre_pdf = f"pdfs/resultados_con_{entrada.get()}.pdf"
+    HTML(string=html).write_pdf(nombre_pdf)
+    messagebox.showinfo("El PDF se generó correctamente.")
