@@ -171,4 +171,18 @@ def generar_pdf(resultados, lista_productos):
                 producto = prod
                 break
 
+        if producto:
+            html += f"""
+                <div class="producto">
+                    <img src="{producto.thumbnail}">
+                    <h2>{producto.title}</h2>
+                    <p>Precio: {producto.price}$</p>
+                    <p>Stock: {producto.stock}</p>
+                    <p>Rating: {producto.rating}</p>
+                </div>
+                """
 
+    html += """
+        </body>
+        </html>
+        """
