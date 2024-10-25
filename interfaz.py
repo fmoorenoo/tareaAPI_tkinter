@@ -163,3 +163,12 @@ def generar_pdf(resultados, lista_productos):
     <body>
         <h1>Resultados de Búsqueda</h1>
     """
+
+    for titulo in resultados:
+        producto = None
+        for prod in lista_productos.products:
+            if prod.title == titulo:
+                producto = prod
+                break
+
+
