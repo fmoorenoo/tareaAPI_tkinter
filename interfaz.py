@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.font import Font
@@ -188,6 +189,15 @@ def generar_pdf(resultados, lista_productos):
         </html>
         """
 
-    nombre_pdf = f"pdfs/resultados_con_{entrada.get()}.pdf"
+    base_nombre = f"resultados_con_{entrada.get()}"
+    extension = ".pdf"
+    nombre_pdf = f"pdfs/{base_nombre}{extension}"
+    contador = 1
+
+
+    while os.path.exists(nombre_pdf):
+        nombre_pdf = f"pdfs/{base_nombre}_{contador}{extension}"
+        contador += 1
+
     HTML(string=html).write_pdf(nombre_pdf)
     messagebox.showinfo("El PDF se generó correctamente.")
